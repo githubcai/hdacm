@@ -1,0 +1,37 @@
+#include <cstdio>
+#include <iostream>
+#include <map>
+#include <cstring>
+using namespace std;
+
+int main(){
+    map<string, int> store;
+    int n, edge, rd[1200];
+    while(scanf("%d", &n) != EOF && n != 0){
+        store.clear();
+        memset(rd, 0, sizeof(0));
+        edge = 1;
+        for(int i = 0; i < n; ++i){
+            string a, b;
+            cin >> a;
+            if(store[a] == 0){
+                store[a] = edge++;
+            }
+            cin >> b;
+            if(store[b] == 0){
+                store[b] = edge++;
+            }
+            ++rd[store[b]];
+        }
+        int temp = 0;
+        for(int i = 1; i < edge; ++i){
+            if(rd[i] == 0) ++temp;
+        }
+        if(temp == 1){
+            printf("Yes\n");
+        }else{
+            printf("No\n");
+        }
+    }
+    return 0;
+}
