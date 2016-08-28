@@ -1,0 +1,86 @@
+#include <cstdio>
+#include <queue>
+#include <cstring>
+#include <cctype>
+using namespace std;
+
+struct Node{
+    int x, y, num, time;
+    friend bool operator<(const Node &a, const Node &b){
+        return a.time > b.time;
+    }
+};
+
+const int MAX = 101, CMAX = 30;
+char maze[MAX][MAX];
+bool vis[MAX][MAX][CMAX];
+int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}, height, width;
+
+int bfs(){
+    priority_queue<Node> que;
+    Node st;
+    memset(vis, 0, sizeof(vis));
+    for(int i = 0; i < height; ++i){
+        for(int j = 0; j < width; ++j){
+            if(maze[i][j] == '#' || isupper(maze[i][j])){
+                st.x = i, st.y = j, st.num = 0, st.time = 0;
+                st.num = (maze[i][j] == '#' ? 0 : maze[i][j] - '@');
+                vis[i][j][st.num] = true;
+                que.push(st);
+            }
+        }
+    }
+    while(!que.empty()){
+        st = que.top();
+        que.pop();
+        if(maze[st.x][st.y] == '$'){
+            return st.time;
+        }
+        for(int i = 0; i < 4; ++i){
+            Node next;
+            next.x = st.x + dir[i][0];
+            next.y = st.y + dir[i][1];
+            if(next.x >= 0 && next.y >= 0 && next.x < height && next.y < width){
+                if(isdigit(maze[next.x][next.y])){
+                    if(st.num >= 1){
+                        next.num = st.num - 1;
+                        next.time = st.time;
+                        que.push(next);
+                    }
+                    next.num = st.num;
+                    next.time = st.time + maze[next.x][next.y] - '0';
+                    que.push(next);
+                }else if(maze[next.x][next.y] != '*'){
+                    if(!vis[next.x][next.y][st.num]){
+                        vis[next.x][next.y][st.num] = true;
+                        next.num = st.num;
+                        next.time = st.time;
+                        que.push(next);
+                    }
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+int main(){
+    while(scanf("%s\n", maze[0]) != EOF && maze[0][0] != '-'){
+        for(height = 1; ; ++height){
+            scanf("%c", &maze[height][0]);
+            if(maze[height][0] == '\n') break;
+            for(int i = 1; ; ++i){
+                scanf("%c", &maze[height][i]);
+                if('\n' == maze[height][i]) break;
+            }
+        }
+        width = strlen(maze[0]);
+        int result = bfs();
+        if(result == -1){
+            printf("IMPOSSIBLE\n");
+        }else{
+            printf("%d\n", result);
+        }
+    }
+    return 0;
+}
