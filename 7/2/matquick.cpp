@@ -16,7 +16,7 @@ mat multi(const mat &m1,const mat &m2,int mod)//两个相等矩阵的乘法，�
     for(int i=0;i<m1.size;i++)
         for(int j=0;j<m2.size;j++)
             if(m1.a[i][j])//稀疏矩阵优化 
-                for(int k=0;k<=m0.size;k++)
+                for(int k=0;k<=m1.size;k++)
                     ans.a[i][k]=(ans.a[i][k]+m1.a[i][j]*m2.a[j][k])%mod;
 
     return ans;
