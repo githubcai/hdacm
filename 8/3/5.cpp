@@ -50,7 +50,8 @@ int main(){
             input.a[0][1] = 12, input.a[1][0] = 2;
             input.size = 2;
             Mat ret = quickMulti(input, n - 1, 1024);
-
+            int result = (2 * (ret.a[0][0] * 5 + ret.a[0][1] * 2) - 1) % 1024;
+            printf("%d\n", result);
         }
     }
     return 0;
