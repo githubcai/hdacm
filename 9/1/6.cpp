@@ -70,7 +70,7 @@ int main(){
             ans += temp;
             update(input[i].ref, 1);
         }
-        printf("%d\n", ans);
+        printf("%d\n", ans + count * (N - count));
     }
     return 0;
 }
