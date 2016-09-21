@@ -33,8 +33,8 @@ int getSum(int x){
 }
 
 bool cmpR(const Node &a, const Node &b){
-    if(a.r == b.r) return a.l < b.l;
-    return a.r < b.r;
+    if(a.r == b.r) return a.l > b.l;
+    return a.r > b.r;
 }
 
 bool cmpL(const Node &a, const Node &b){
@@ -50,8 +50,8 @@ int main(){
         for(int i = 0; i < N; ++i){
             double x1, x2, y1, y2;
             scanf("%lf%lf%lf%lf", &x1, &y1, &x2, &y2);
-            if(x1 == x2 && x1 > L && x1 < R){
-                ++count;
+            if(x1 == x2){
+                if(x1 > L && x1 < R) ++count;
                 continue;
             }
             double k = (y2 - y1) / (x2 - x1);
@@ -65,12 +65,12 @@ int main(){
         }
         sort(input, input + leng, cmpL);
         int ans = 0;
+        memset(C, 0, sizeof(C));
         for(int i = 0; i < leng; ++i){
-            int temp = getSum(MAX) - getSum(input[i].ref);
-            ans += temp;
+            ans += getSum(input[i].ref - 1);
             update(input[i].ref, 1);
         }
-        printf("%d\n", ans + count * (N - count));
+        printf("%d\n", ans + count * leng);
     }
     return 0;
 }
