@@ -1,17 +1,5 @@
 2
-3
-a b c A B C
-a:BAC
-b:BAC
-c:ACB
-A:acb
-B:bac
-C:cab
-3
-a b c A B C
-a:ABC
-b:ABC
-c:BCA
-A:bac
-B:acb
-C:abc
+4 0
+3 2
+1 2
+1 3
