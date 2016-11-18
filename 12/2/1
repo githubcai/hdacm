@@ -1,3 +1,13 @@
-1 1 1 1 3 2 3 2 3 1 3 2 2 3 1 2 2 2 3 1 2 1 3 3
-1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3
-0
+B B B B
+O O O O
+W W W W
+R R R R
+Y Y Y Y
+G G G G
+
+B B W O
+Y B R B
+O Y O Y
+G W G O
+R R W W
+Y R G G
