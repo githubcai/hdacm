@@ -53,10 +53,10 @@ bool bfs(int x, int n){
         que[x].pop();
         for(int i = 0; i < n; ++i){
             for(int j = i; j < n; ++j){
-                if(((1 << j) & cur) == (x ^ 1)) break;
+                if(((1 << j) & now) == (x ^ 1)) break;
                 int v = (pt[j - i + 1] - 1) << i;
                 if(!smove[v]) break;
-                v = ((x == 0) ? (v | cur : v ^ cur));
+                v = ((x == 0) ? (v | now) : (v ^ now));
                 if(vis[x ^ 1][v]) return true;
                 if(vis[x][v]) continue;
                 vis[x][v] = true;
@@ -65,14 +65,21 @@ bool bfs(int x, int n){
         }
         for(int i = 0; i < n; ++i){
             for(int j = i; j < n; ++j){
-                if(((1 << j) & cur) == 0) break;
+                if(((1 << j) & now) == 0) break;
                 for(int k = 0; k < edge[i][j].size(); ++k){
                     int v = edge[i][j][k];
-                    if(x == 0){
-                        
+                    if(v & ((pt[j - i + 1] - 1) << i)) continue;
+                    if(x == 0 && (v & now) == 0){
+                        v |= now;
+                    }else if(x == 1 && (v & now) == v){
+                        v ^= now;
                     }else{
-                    
+                        continue;
                     }
+                    if(vis[x ^ 1][v]) return true;
+                    if(vis[x][v]) continue;
+                    vis[x][v] = true;
+                    que[x].push(v);
                 }
             }
         }
@@ -80,9 +87,9 @@ bool bfs(int x, int n){
 }
 
 int dbfs(int n){
-    int full = 1 << n - 1;
+    int full = (1 << n) - 1;
     for(int i = 0; i < 2; ++i){
-        memset(vis[i], 0, sizeof(bool) * (1 << n + 3));
+        memset(vis[i], 0, sizeof(bool) * ((1 << n) + 3));
         while(!que[i].empty()) que[i].pop();
     }
     que[0].push(0); que[1].push(full);
@@ -119,6 +126,7 @@ int main(){
             printf("impossible\n");
             continue;
         }
+        memset(smove, 0, sizeof(bool) * ((1 << lent) + 3));
         char temp[MAX];
         for(int i = 0; i < lent; ++i){
             int k = 0;
